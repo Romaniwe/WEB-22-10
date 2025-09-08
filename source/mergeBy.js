@@ -38,6 +38,7 @@ function mergeTwoObjects(firstObject, secondObject) {
     return mergedObject;
 }
 
+
 /**
  * Объединяет два массива объектов по указанному ключу.
  * Объекты с одинаковым значением указанного ключа объединяются в один объект.
@@ -98,12 +99,7 @@ function mergeBy(firstArray, secondArray, key) {
                 mergedArray.push(object);
             }    
         }
-    });
-    // for (let i = 0; i < firstArray.length; i++) {
-    
-        
-    // }
-    
+    });    
     // Добавляем необработанные объекты из второго массива.
 
     secondArrayCopy.forEach(object=>{
@@ -111,6 +107,5 @@ function mergeBy(firstArray, secondArray, key) {
             mergedArray.push(object);
         }
     });
-    
     return mergedArray;
 }
