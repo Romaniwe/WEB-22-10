@@ -8,7 +8,7 @@
  * 
  * @param {Object} firstObject - Первый объект для объединения
  * @param {Object} secondObject - Второй объект для объединения
- * @returns {Object} Новый объект, содержащий объединенные свойства обоих объектов
+ * @returns {Object} Новый объект, с    одержащий объединенные свойства обоих объектов
  * 
  * @example
  * // returns { id: 1, name: "Alice", tags: ["friend", "travel"], age: 30 }
@@ -18,7 +18,7 @@
  * );
  */
 function mergeTwoObjects(firstObject, secondObject) {
-    let mergedObject = {};
+    const mergedObject = {};
     
     for (let firstKey in firstObject) {
         // Если свойство есть во втором объекте и оба значения являются массивами
@@ -67,16 +67,14 @@ function mergeTwoObjects(firstObject, secondObject) {
  * );
  */
 function mergeBy(firstArray, secondArray, key) {
-    let mergedArray = [];
-    let firstArrayCopy = [...firstArray];
-    let secondArrayCopy = [...secondArray];
-    let usedIndexes = new Set();
+    const mergedArray = [];
+    const secondArrayCopy = [...secondArray];
+    const usedIndexes = new Set();
     
-    for (let i = 0; i < firstArrayCopy.length; i++) {
-        if (key in firstArrayCopy[i]) {
+    firstArray.forEach(object=>{
+        if (key in object) {
             // Флаг, указывающий, найден ли совпадающий объект во втором массиве
             let isMatch = false; 
-
             for (let j = 0; j < secondArrayCopy.length; j++) {
                 // Пропускаем уже обработанные элементы
                 if (usedIndexes.has(j)) {
@@ -84,9 +82,9 @@ function mergeBy(firstArray, secondArray, key) {
                 }
 
                 if (key in secondArrayCopy[j]) {
-                    if (firstArrayCopy[i][key] === secondArrayCopy[j][key]) {
+                    if (object[key] === secondArrayCopy[j][key]) {
                         // Объединяем объекты с совпадающими ключами
-                        mergedArray.push(mergeTwoObjects(firstArrayCopy[i], secondArrayCopy[j]));
+                        mergedArray.push(mergeTwoObjects(object, secondArrayCopy[j]));
                         // Помечаем индекс как использованный
                         usedIndexes.add(j);
                         isMatch = true;
@@ -95,21 +93,24 @@ function mergeBy(firstArray, secondArray, key) {
                     }
                 }
             }
-            
             // Если совпадение не найдено, добавляем объект из первого массива
             if (!isMatch) {
-                mergedArray.push(firstArrayCopy[i]);
+                mergedArray.push(object);
             }    
         }
-    }
+    });
+    // for (let i = 0; i < firstArray.length; i++) {
+    
+        
+    // }
     
     // Добавляем необработанные объекты из второго массива.
-    for (let j = 0; j < secondArrayCopy.length; j++) {
-        //Обработанные элементы второго массива отмечены и равны null + также проверяем наличие ключа
-        if (secondArrayCopy[j] !== null && key in secondArrayCopy[j]) {
-            mergedArray.push(secondArrayCopy[j]);
+
+    secondArrayCopy.forEach(object=>{
+        if(object!=null && key in object){
+            mergedArray.push(object);
         }
-    }
+    });
     
     return mergedArray;
 }
